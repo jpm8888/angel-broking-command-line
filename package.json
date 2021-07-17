@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "angel:hello": "node src/cmd/Hello/index.js",
-    "angel:init": "node src/cmd/Hello",
+    "angel:hello": "node -r dotenv/config src/cmd/Hello/index.js dotenv_config_path=.env",
+    "angel:init": "node -r dotenv/config src/cmd/Init/index.js dotenv_config_path=.env",
     "lint": "eslint src"
   },
   "dependencies": {
@@ -17,7 +17,9 @@
     "boxen": "^5.0.1",
     "chalk": "^4.1.1",
     "dotenv": "^10.0.0",
+    "nanoid": "^3.1.23",
     "rxjs": "^7.2.0",
+    "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
     "yargs": "^17.0.1"
   },
