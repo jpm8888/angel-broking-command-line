@@ -1,0 +1,30 @@
+{
+  "name": "angel-cmd-node",
+  "version": "1.0.0",
+  "description": "Command line tools for angel trading",
+  "main": "index.js",
+  "repository": "https://jpm8888@bitbucket.org/jpm8888/angel-cmd-node.git",
+  "author": "whiteFang <jpm8888@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "angel:hello": "node src/cmd/Hello/index.js",
+    "angel:init": "node src/cmd/Hello",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "boxen": "^5.0.1",
+    "chalk": "^4.1.1",
+    "dotenv": "^10.0.0",
+    "rxjs": "^7.2.0",
+    "sqlite3": "^5.0.2",
+    "yargs": "^17.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.4"
+  }
+}
