@@ -2,7 +2,13 @@ const Database = require('./database/Database');
 const Logger = require('./Logger');
 
 const TAG = 'Preferences';
-const KEY_AUTH_TOKEN = 'auth_token'; // bearer token
+
+const PrefKeys = {
+  KEY_AUTH_TOKEN: 'auth_token', // bearer token
+  KEY_REFRESH_TOKEN: 'refresh_token',
+  KEY_FEED_TOKEN: 'feed_token',
+};
+
 const table_name = 'prefs';
 
 async function save_pref(k, v) {
@@ -44,5 +50,5 @@ async function get_pref(k, dV) {
 module.exports = {
   save_pref,
   get_pref,
-  KEY_AUTH_TOKEN,
+  PrefKeys,
 };

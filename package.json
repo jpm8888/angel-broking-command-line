@@ -10,14 +10,17 @@
   "scripts": {
     "angel:hello": "node -r dotenv/config src/cmd/Hello/index.js dotenv_config_path=.env",
     "angel:init": "node -r dotenv/config src/cmd/Init/index.js dotenv_config_path=.env",
+    "angel:login": "node -r dotenv/config src/cmd/Angel/login.js dotenv_config_path=.env",
     "lint": "eslint src"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "boxen": "^5.0.1",
     "chalk": "^4.1.1",
+    "cli-table3": "^0.6.0",
     "dotenv": "^10.0.0",
     "nanoid": "^3.1.23",
+    "open": "^8.2.1",
     "rxjs": "^7.2.0",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
