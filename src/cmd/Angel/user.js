@@ -15,8 +15,6 @@ async function tryLogin() {
     password: await Prefs.get_pref(PrefKeys.KEY_ANGEL_CLIENT_PASS, ''),
   };
 
-  //console.log(params);
-
   const res = await network.makePostRequest(Config.ANGEL_URLS.login, params);
   if (!res.status) return;
   const { jwtToken, refreshToken, feedToken } = res.data;
