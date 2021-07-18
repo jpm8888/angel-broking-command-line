@@ -4,6 +4,7 @@ const Logger = require('./Logger');
 const Config = require('./Config');
 const Prefs = require('./Preferences');
 
+const { PrefKeys } = Prefs;
 const URLS = Config.ANGEL_URLS;
 
 const TAG = 'AxiosInterceptor: ';
@@ -35,7 +36,7 @@ axios.interceptors.request.use(async (config) => {
   };
 
   if (isTokenRequired) {
-    const token = await Prefs.get_pref(Prefs.KEY_AUTH_TOKEN, '');
+    const token = await Prefs.get_pref(PrefKeys.KEY_AUTH_TOKEN, '');
     newConfig = {
       ...newConfig,
       headers: {
