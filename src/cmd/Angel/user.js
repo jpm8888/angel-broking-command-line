@@ -58,14 +58,14 @@ async function funds() {
   const table = new Table();
 
   table.push(
-    { 'Net Amt.': net },
-    { 'Available Cash': availablecash },
-    { 'Intraday PayIn': availableintradaypayin },
+    { 'Net Amt.': Math.round(net, 2) },
+    { 'Available Cash': Math.round(availablecash, 2) },
+    { 'Intraday PayIn': Math.round(availableintradaypayin, 2) },
     { 'Available Limit Margin': availablelimitmargin },
     { 'M2M-Un-Realized': m2munrealized },
     { 'M2M-Realized': m2mrealized },
   );
-  // eslint-disable-next-line no-console
+
   console.log(table.toString());
 }
 
