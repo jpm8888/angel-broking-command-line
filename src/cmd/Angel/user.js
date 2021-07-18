@@ -84,4 +84,6 @@ function fire() {
 module.exports = {
   auth,
   fire,
+  getProfile,
+  funds,
 };

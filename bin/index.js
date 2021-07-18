@@ -3,7 +3,7 @@
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const Setup = require('../src/cmd/Init/index');
-const Login = require('../src/cmd/Angel/user');
+const User = require('../src/cmd/Angel/user');
 
 const { argv } = yargs(hideBin(process.argv));
 
@@ -13,15 +13,22 @@ if (argv.init) {
 }
 
 if (argv.auth){
-  Login.auth().then(()=>{
-
-  });
+  User.auth().then(()=>{});
   return;
 }
 
-
 if (argv.login){
-  Login.fire();
+  User.fire();
+  return;
+}
+
+if (argv.profile){
+  User.getProfile().then(()=>{});
+  return;
+}
+
+if (argv.funds){
+  User.funds().then(()=>{});
   return;
 }
 
