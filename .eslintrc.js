@@ -12,5 +12,6 @@ module.exports = {
   },
   rules: {
     camelcase: 'off',
+    'no-console': 'off',
   },
 };

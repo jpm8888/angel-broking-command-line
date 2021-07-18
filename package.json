@@ -1,5 +1,5 @@
 {
-  "name": "angel-cmd-node",
+  "name": "angel-cli",
   "version": "1.0.0",
   "description": "Command line tools for angel trading",
   "main": "index.js",
@@ -7,11 +7,16 @@
   "author": "whiteFang <jpm8888@gmail.com>",
   "license": "MIT",
   "private": true,
+  "bin": {
+    "angel": "./bin/index.js"
+  },
   "scripts": {
     "angel:hello": "node -r dotenv/config src/cmd/Hello/index.js dotenv_config_path=.env",
     "angel:init": "node -r dotenv/config src/cmd/Init/index.js dotenv_config_path=.env",
     "angel:login": "node -r dotenv/config src/cmd/Angel/user.js dotenv_config_path=.env",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "system:install": "sudo npm install -g .",
+    "system:uninstall": "sudo npm uninstall -g angel-cli"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -21,6 +26,7 @@
     "dotenv": "^10.0.0",
     "nanoid": "^3.1.23",
     "open": "^8.2.1",
+    "readline-sync": "^1.4.10",
     "rxjs": "^7.2.0",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",

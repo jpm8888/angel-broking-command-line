@@ -1,8 +1,9 @@
 const Database = require('sqlite');
 const sqlite3 = require('sqlite3');
 const ID = require('nanoid');
-const Config = require('../Config');
 const Logger = require('../Logger');
+
+const DB_NAME = 'angel_1.sqlite';
 
 const TAG = 'Database: ';
 function replaceAll(string, search, replace) {
@@ -48,14 +49,23 @@ const create_unique_idx = async (db, table_name, column_name) => {
 
 const getDatabase = async () => {
   const db = await Database.open({
-    filename: Config.DB_NAME,
+    filename: DB_NAME,
     driver: sqlite3.Database,
   });
   return db;
+};
+
+const closeDatabase = async (db) => {
+  await db
+    .close()
+    // .then(() => Logger.logInfo(TAG, 'Closing database connection.'))
+    .catch((err) => Logger.logError(TAG, err.message));
 };
 
 module.exports = {
   getDatabase,
   create_index,
   create_unique_idx,
+  closeDatabase,
+  DB_NAME,
 };

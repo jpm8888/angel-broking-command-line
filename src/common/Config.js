@@ -1,10 +1,7 @@
-const { APP_ENV, APP_BUILD, APP_VERSION } = process.env;
-const { ANGEL_API_HOST, ANGEL_API_KEY, ANGEL_SECRET_KEY } = process.env;
-const { CLIENT_CODE, CLIENT_PASSWORD } = process.env;
-const { MAC_ADDRESS, CLIENT_PUBLIC_IP, CLIENT_LOCAL_IP } = process.env;
-const DB_NAME = `${process.env.DB_NAME}_${APP_BUILD}.sqlite`;
-
-const AUTH_URL = `https://smartapi.angelbroking.com/publisher-login?api_key=${ANGEL_API_KEY}`;
+const ANGEL_API_HOST = 'https://apiconnect.angelbroking.com';
+const APP_BUILD = 1;
+const APP_VERSION = 1;
+const APP_ENV = 'dev';
 
 // https://smartapi.angelbroking.com/docs/User
 const ANGEL_URLS = {
@@ -29,17 +26,8 @@ const ANGEL_URLS = {
 
 module.exports = {
   APP_ENV,
-  DB_NAME,
   ANGEL_API_HOST,
-  ANGEL_API_KEY,
-  ANGEL_SECRET_KEY,
-  CLIENT_CODE,
-  CLIENT_PASSWORD,
   APP_VERSION,
   APP_BUILD,
-  AUTH_URL,
   ANGEL_URLS,
-  MAC_ADDRESS,
-  CLIENT_PUBLIC_IP,
-  CLIENT_LOCAL_IP,
 };

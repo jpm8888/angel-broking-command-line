@@ -1,4 +1,5 @@
 const Table = require('cli-table3');
+const open = require('open');
 const network = require('../../common/NetworkOps');
 const Config = require('../../common/Config');
 const Prefs = require('../../common/Preferences');
@@ -6,12 +7,15 @@ const Logger = require('../../common/Logger');
 
 const TAG = 'user: ';
 const { PrefKeys } = Prefs;
+const AUTH_URL = 'https://smartapi.angelbroking.com/publisher-login?api_key=';
 
 async function tryLogin() {
   const params = {
-    clientcode: Config.CLIENT_CODE,
-    password: Config.CLIENT_PASSWORD,
+    clientcode: await Prefs.get_pref(PrefKeys.KEY_ANGEL_CLIENT_CODE, ''),
+    password: await Prefs.get_pref(PrefKeys.KEY_ANGEL_CLIENT_PASS, ''),
   };
+
+  console.log(params);
 
   const res = await network.makePostRequest(Config.ANGEL_URLS.login, params);
   if (!res.status) return;
@@ -67,7 +71,19 @@ async function funds() {
   console.log(table.toString());
 }
 
-tryLogin().then(async () => {
-  await getProfile();
-  await funds();
-});
+async function auth() {
+  const apiKey = await Prefs.get_pref(PrefKeys.KEY_ANGEL_API_KEY, '');
+  await open(AUTH_URL + apiKey);
+}
+
+function fire() {
+  tryLogin().then(async () => {
+    await getProfile();
+    await funds();
+  });
+}
+
+module.exports = {
+  auth,
+  fire,
+};

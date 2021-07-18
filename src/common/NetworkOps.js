@@ -11,20 +11,22 @@ const TAG = 'AxiosInterceptor: ';
 const unAuthenticatedRoutes = [URLS.login, URLS.test];
 const API_TIMEOUT = 10000;
 
-const headers = {
+const getHeaders = async () => ({
   'Content-Type': 'application/json',
   Accept: 'application/json',
   'X-UserType': 'USER',
   'X-SourceID': 'WEB',
-  'X-ClientLocalIP': Config.CLIENT_LOCAL_IP,
-  'X-ClientPublicIP': Config.CLIENT_PUBLIC_IP,
-  'X-MACAddress': Config.MAC_ADDRESS,
-  'X-PrivateKey': Config.ANGEL_API_KEY,
-};
+  'X-ClientLocalIP': await Prefs.get_pref(PrefKeys.KEY_CLIENT_LOCAL_IP, ''),
+  'X-ClientPublicIP': await Prefs.get_pref(PrefKeys.KEY_CLIENT_PUBLIC_IP, ''),
+  'X-MACAddress': await Prefs.get_pref(PrefKeys.KEY_MAC_ADDRESS, ''),
+  'X-PrivateKey': await Prefs.get_pref(PrefKeys.KEY_ANGEL_API_KEY, ''),
+});
 
 axios.interceptors.request.use(async (config) => {
   const isTokenRequired = !unAuthenticatedRoutes.includes(config.url);
   Logger.logInfo(TAG, `isTokenRequired: ${isTokenRequired} ${config.url}`);
+
+  const headers = await getHeaders();
 
   let newConfig = {
     ...config,
