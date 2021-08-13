@@ -5,6 +5,7 @@ const Setup = require('../src/cmd/Init/index');
 const User = require('../src/cmd/Angel/user');
 const Portfolio = require('../src/cmd/Angel/portfolio');
 const SayHello = require('../src/cmd/Angel/hello');
+const Instruments = require('../src/cmd/Angel/instruments');
 
 yargs
   .command(Setup)
@@ -15,7 +16,7 @@ yargs
       User.auth().then(() => {});
     },
   })
-
+  .command(Instruments.commandUpdateInstruments)
   .command({
     command: 'login',
     describe: 'login using your username and password.',

@@ -22,6 +22,7 @@ const ANGEL_URLS = {
   getPosition: `${ANGEL_API_HOST}/rest/secure/angelbroking/order/v1/getPosition`,
   convertPosition: `${ANGEL_API_HOST}/rest/secure/angelbroking/order/v1/convertPosition`,
 
+  tradedStocks: 'https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json',
 };
 
 module.exports = {
