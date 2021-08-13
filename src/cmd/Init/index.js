@@ -52,5 +52,9 @@ function fire() {
 }
 
 module.exports = {
-  fire,
+  command: 'init',
+  describe: 'initialise with username and password.',
+  handler: () => {
+    fire();
+  },
 };

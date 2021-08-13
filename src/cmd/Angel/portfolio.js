@@ -9,6 +9,10 @@ async function getHoldings() {
   const res = await network.makeGetRequest(Config.ANGEL_URLS.getHolding);
   if (!res.status) return;
   const { data } = res;
+  if (!data) {
+    Logger.logWarning(TAG, 'no holdings found.');
+    return;
+  }
   Logger.logInfo(TAG, 'generating holdings');
   const table = new Table({
     head: ['Symbol', 'Qty', 'Type', 'Avg Price', 'LTP', 'Change', 'Profit'],
@@ -37,5 +41,9 @@ async function getHoldings() {
 }
 
 module.exports = {
-  getHoldings,
+  command: 'holdings',
+  describe: 'check your portfolio.',
+  handler: () => {
+    getHoldings().then(() => {});
+  },
 };

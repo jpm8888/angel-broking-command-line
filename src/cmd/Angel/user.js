@@ -76,6 +76,7 @@ async function auth() {
 
 function fire() {
   tryLogin().then(async () => {
+    Logger.logInfo(TAG, 'starting login');
     await getProfile();
     await funds();
   });
