@@ -3,6 +3,9 @@ const APP_BUILD = 1;
 const APP_VERSION = 1;
 const APP_ENV = 'dev';
 
+const APP_DIR = '.angel';
+const DB_NAME = 'angel_1.sqlite';
+
 // https://smartapi.angelbroking.com/docs/User
 const ANGEL_URLS = {
   test: 'https://jsonplaceholder.typicode.com/todos/1',
@@ -31,4 +34,6 @@ module.exports = {
   APP_VERSION,
   APP_BUILD,
   ANGEL_URLS,
+  APP_DIR,
+  DB_NAME,
 };
