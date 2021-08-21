@@ -60,7 +60,7 @@ const getDatabase = async () => {
   }
 
   const dbPath = `${homeDir}/${Config.APP_DIR}/${Config.DB_NAME}`;
-  Logger.logInfo(TAG, `db_path -> ${dbPath}`);
+  // Logger.logInfo(TAG, `db_path -> ${dbPath}`);
   const db = await Database.open({
     filename: dbPath,
     driver: sqlite3.Database,
