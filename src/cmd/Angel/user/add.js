@@ -10,7 +10,7 @@ async function addUser() {
   const password = rs.question('Password: ') || '';
 
   const config = [
-    { key: 'Client Code', value: clientCode },
+    { key: 'Client Code', value: clientCode.toUpperCase().trim() },
     { key: 'Password', value: password },
   ];
 

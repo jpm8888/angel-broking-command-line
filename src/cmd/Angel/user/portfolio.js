@@ -1,11 +1,11 @@
 const Table = require('cli-table3');
-const network = require('../../common/NetworkOps');
-const Config = require('../../common/Config');
-const Logger = require('../../common/Logger');
+const network = require('../../../common/NetworkOps');
+const Config = require('../../../common/Config');
+const Logger = require('../../../common/Logger');
 
 const TAG = 'portfolio: ';
 
-async function getHoldings() {
+async function getPortfolio() {
   const res = await network.makeGetRequest(Config.ANGEL_URLS.getHolding);
   if (!res.status) return;
   const { data } = res;
@@ -41,9 +41,9 @@ async function getHoldings() {
 }
 
 module.exports = {
-  command: 'holdings',
-  describe: 'check your portfolio.',
+  command: 'user:portfolio',
+  describe: 'check user portfolio.',
   handler: () => {
-    getHoldings().then(() => {});
+    getPortfolio().then(() => {});
   },
 };

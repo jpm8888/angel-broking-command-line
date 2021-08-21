@@ -9,6 +9,9 @@ const PrefKeys = {
   KEY_MAC_ADDRESS: 'mac_address',
   KEY_CLIENT_PUBLIC_IP: 'client_public_ip',
   KEY_CLIENT_LOCAL_IP: 'client_local_ip',
+
+  KEY_CURRENT_USER_ID: 'current_user_id', // current session user.
+  KEY_CURRENT_USER_TOKEN: 'current_user_token',
 };
 
 const table_name = 'prefs';

@@ -2,43 +2,29 @@
 
 const yargs = require('yargs');
 const Setup = require('../src/cmd/Init/index');
-const User = require('../src/cmd/Angel/user');
-const Portfolio = require('../src/cmd/Angel/portfolio');
+const Portfolio = require('../src/cmd/Angel/user/portfolio');
 const SayHello = require('../src/cmd/Angel/hello');
 const Instruments = require('../src/cmd/Angel/instruments');
+const Login = require('../src/cmd/Angel/user/login');
+const UserAdd = require('../src/cmd/Angel/user/add');
+const UserAll = require('../src/cmd/Angel/user/all');
+const UserProfile = require('../src/cmd/Angel/user/profile');
+const UserSelect = require('../src/cmd/Angel/user/select');
+const UserWhich = require('../src/cmd/Angel/user/which');
+const UserFunds = require('../src/cmd/Angel/user/funds');
+const UserAuth = require('../src/cmd/Angel/user/auth');
 
 yargs
   .command(Setup)
-  .command({
-    command: 'auth',
-    describe: 'To sign in angel broking system via web-browser (required to use this utility.)',
-    handler: () => {
-      User.auth().then(() => {});
-    },
-  })
+  .command(UserAuth.command)
   .command(Instruments.commandUpdateInstruments)
-  .command({
-    command: 'login',
-    describe: 'login using your username and password.',
-    handler: () => {
-      User.fire();
-    },
-  })
-  .command({
-    command: 'profile',
-    describe: 'shows information about your profile.',
-    handler: () => {
-      User.getProfile().then(() => {});
-    },
-  })
-  .command({
-    command: 'funds',
-    describe: 'check your funds status.',
-    handler: () => {
-      User.funds().then(() => {});
-    },
-  })
+  .command(UserAdd.command)
+  .command(UserAll.command)
+  .command(Login.commandLogin)
+  .command(UserProfile.command)
+  .command(UserSelect.command)
+  .command(UserWhich.command)
+  .command(UserFunds.command)
   .command(Portfolio)
   .command(SayHello)
-
   .parse();

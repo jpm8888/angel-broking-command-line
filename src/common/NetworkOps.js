@@ -38,7 +38,11 @@ axios.interceptors.request.use(async (config) => {
   };
 
   if (isTokenRequired) {
-    const token = await Prefs.get_pref(PrefKeys.KEY_AUTH_TOKEN, '');
+    const token = await Prefs.get_pref(PrefKeys.KEY_CURRENT_USER_TOKEN, '');
+    if (token === '') {
+      Logger.logError(TAG, 'auth token is empty - use angel user:select');
+    }
+
     newConfig = {
       ...newConfig,
       headers: {
