@@ -25,7 +25,7 @@ async function printAllUsers() {
     });
 
     if (showWarning) {
-      Logger.logWarning('Note: ', 'If client name is empty run angel user:update_all');
+      Logger.logWarning('Note: ', 'If client name is empty run angel user:profile');
     }
 
     console.log(table.toString());
