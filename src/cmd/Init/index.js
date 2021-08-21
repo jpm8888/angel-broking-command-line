@@ -3,6 +3,7 @@ const chalk = require('chalk');
 const migration_v1 = require('../../common/database/migration_v1');
 const Logger = require('../../common/Logger');
 const Prefs = require('../../common/Preferences');
+const Utils = require('../../common/Util');
 
 const { PrefKeys } = Prefs;
 
@@ -13,21 +14,17 @@ async function initDatabase() {
   Logger.logInfo(TAG, 'trying to open authentication url.');
 }
 
-function fire() {
+async function fire() {
   console.log(chalk.green.bold('Welcome to The Angel!!!\n'));
   const angelApiKey = rs.question('ANGEL_API_KEY: ') || '';
   const angelSecretKey = rs.question('ANGEL_SECRET_KEY: ') || '';
-  const clientCode = rs.question('CLIENT_CODE: ') || '';
-  const clientPassword = rs.question('CLIENT_PASSWORD: ') || '';
-  const macAddress = rs.question('MAC_ADDRESS: ') || '';
-  const clientPublicIp = rs.question('CLIENT_PUBLIC_IP [192.168.0.1]: ') || '192.168.0.1';
-  const clientLocalIp = rs.question('CLIENT_LOCAL_IP [192.168.0.1]: ') || '192.168.0.1';
+  const macAddress = await Utils.getMacAddress();
+  const clientPublicIp = '192.168.0.1';
+  const clientLocalIp = '192.168.0.1';
 
   const config = [
     { key: PrefKeys.KEY_ANGEL_API_KEY, value: angelApiKey },
     { key: PrefKeys.KEY_ANGEL_SECRET_KEY, value: angelSecretKey },
-    { key: PrefKeys.KEY_ANGEL_CLIENT_CODE, value: clientCode },
-    { key: PrefKeys.KEY_ANGEL_CLIENT_PASS, value: clientPassword },
     { key: PrefKeys.KEY_MAC_ADDRESS, value: macAddress },
     { key: PrefKeys.KEY_CLIENT_PUBLIC_IP, value: clientPublicIp },
     { key: PrefKeys.KEY_CLIENT_LOCAL_IP, value: clientLocalIp },
@@ -53,8 +50,8 @@ function fire() {
 
 module.exports = {
   command: 'init',
-  describe: 'initialise with username and password.',
+  describe: 'initialise with angel api_keys / secret key.',
   handler: () => {
-    fire();
+    fire().then();
   },
 };
