@@ -14,9 +14,7 @@ const create_table_users = async (db) => {
   query += 'client_pass text, ';
   query += 'auth_token text, ';
   query += 'refresh_token text, ';
-  query += 'feed_token text, ';
-  query += 'created_at text, ';
-  query += 'updated_at text)';
+  query += 'feed_token text)';
 
   try {
     await db.run(query, []);
