@@ -4,14 +4,8 @@ const Logger = require('./Logger');
 const TAG = 'Preferences';
 
 const PrefKeys = {
-  KEY_AUTH_TOKEN: 'auth_token', // bearer token
-  KEY_REFRESH_TOKEN: 'refresh_token',
-  KEY_FEED_TOKEN: 'feed_token',
-
   KEY_ANGEL_API_KEY: 'angel_api_key',
   KEY_ANGEL_SECRET_KEY: 'secret_key',
-  KEY_ANGEL_CLIENT_CODE: 'client_code',
-  KEY_ANGEL_CLIENT_PASS: 'client_pass',
   KEY_MAC_ADDRESS: 'mac_address',
   KEY_CLIENT_PUBLIC_IP: 'client_public_ip',
   KEY_CLIENT_LOCAL_IP: 'client_local_ip',

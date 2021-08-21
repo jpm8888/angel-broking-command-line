@@ -2,8 +2,9 @@ const Database = require('sqlite');
 const sqlite3 = require('sqlite3');
 const ID = require('nanoid');
 const Logger = require('../Logger');
-
-const DB_NAME = 'angel_1.sqlite';
+const Utils = require('../Util');
+const Config = require('../Config');
+const FSUtils = require('../FSUtils');
 
 const TAG = 'Database: ';
 function replaceAll(string, search, replace) {
@@ -48,8 +49,20 @@ const create_unique_idx = async (db, table_name, column_name) => {
 };
 
 const getDatabase = async () => {
+  let homeDir = await Utils.runShellCommand('echo $HOME');
+  homeDir = homeDir.toString().replace(/\n/g, '');
+
+  const appDirPath = `${homeDir}/${Config.APP_DIR}`;
+  const isDirectoryPresent = await FSUtils.isDir(appDirPath);
+  if (!isDirectoryPresent) {
+    await FSUtils.mkdir(appDirPath);
+    Logger.logInfo(TAG, `created new dir - ${appDirPath}`);
+  }
+
+  const dbPath = `${homeDir}/${Config.APP_DIR}/${Config.DB_NAME}`;
+  Logger.logInfo(TAG, `db_path -> ${dbPath}`);
   const db = await Database.open({
-    filename: DB_NAME,
+    filename: dbPath,
     driver: sqlite3.Database,
   });
   return db;
@@ -67,5 +80,4 @@ module.exports = {
   create_index,
   create_unique_idx,
   closeDatabase,
-  DB_NAME,
 };

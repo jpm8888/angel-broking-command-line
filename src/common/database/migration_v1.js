@@ -5,6 +5,27 @@ const Database = require('./Database');
 const TAG = 'migration_v1: ';
 const migration_name = 'create_base_tables';
 
+const create_table_users = async (db) => {
+  const table_name = 'users';
+  let query = `create table if not exists ${table_name}(`;
+  query += 'id integer primary key autoincrement not null, ';
+  query += 'client_name text, ';
+  query += 'client_code text, ';
+  query += 'client_pass text, ';
+  query += 'auth_token text, ';
+  query += 'refresh_token text, ';
+  query += 'feed_token text, ';
+  query += 'created_at text, ';
+  query += 'updated_at text)';
+
+  try {
+    await db.run(query, []);
+    Logger.logInfo(TAG, `created ${table_name} success`);
+  } catch (error) {
+    Logger.logInfo(TAG, `creation error on ${table_name}${JSON.stringify(error)}`);
+  }
+};
+
 const create_table_prefs = async (db) => {
   const table_name = 'prefs';
   let query = `create table if not exists ${table_name}(`;
@@ -54,6 +75,7 @@ const run_migration_v1 = async () => {
 
   await create_table_prefs(db);
   await create_table_instruments(db);
+  await create_table_users(db);
 
   await migration.register_migration(db, migration_name);
 };
