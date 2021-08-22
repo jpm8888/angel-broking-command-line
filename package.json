@@ -1,12 +1,12 @@
 {
   "name": "angel-cli",
-  "version": "1.0.0",
-  "description": "Command line tools for angel trading",
+  "version": "0.0.1",
+  "description": "Command line tools for multiple portfolio management and trading.",
   "main": "index.js",
-  "repository": "https://jpm8888@bitbucket.org/jpm8888/angel-cmd-node.git",
+  "repository": "https://github.com/jpm8888/angel-broking-command-line.git",
   "author": "whiteFang <jpm8888@gmail.com>",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "bin": {
     "angel": "./bin/index.js"
   },
@@ -29,12 +29,12 @@
     "rxjs": "^7.3.0",
     "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2",
-    "yargs": "^17.1.0"
+    "yargs": "^17.1.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.24.0"
+    "eslint-plugin-import": "^2.24.1"
   }
 }
