@@ -11,12 +11,16 @@ angel --help
 
 Commands
 Basic Authentication:
-  angel init              initialise with angel api_keys / secret key
-  angel user:auth         this is required before log-in, One time everyday.
+  angel init                initialise with angel api_keys / secret key
+  angel user:auth           this is required before log-in, 
+                            Required daily, (one time)
 
 User Management
   angel user:add            Adds a new user, client id and password is required.
-  angel user:login          To start login process. (You can be logged into multiple users at the same time);
+  angel user:login          To start login process. 
+                            (You can be logged into multiple users 
+                            at the same time);
+                            
   angel user:select         Selects user for the current session.
   angel user:which          User with current session.
   angel user:profile        Profile details of the user.
