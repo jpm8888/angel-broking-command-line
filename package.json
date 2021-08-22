@@ -11,9 +11,6 @@
     "angel": "./bin/index.js"
   },
   "scripts": {
-    "angel:hello": "node -r dotenv/config src/cmd/Hello/index.js dotenv_config_path=.env",
-    "angel:init": "node -r dotenv/config src/cmd/Init/index.js dotenv_config_path=.env",
-    "angel:login": "node -r dotenv/config src/cmd/Angel/user.js dotenv_config_path=.env",
     "lint": "eslint src",
     "system:install": "sudo npm install -g .",
     "system:uninstall": "sudo npm uninstall -g angel-cli"
