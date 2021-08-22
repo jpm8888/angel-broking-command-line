@@ -1,12 +1,20 @@
 {
   "name": "angel-broking-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Command line tools for multiple portfolio management and trading.",
   "main": "index.js",
   "repository": "https://github.com/jpm8888/angel-broking-command-line.git",
   "author": "whiteFang <jpm8888@gmail.com>",
   "license": "MIT",
   "private": false,
+  "keywords": [
+    "angel",
+    "broking",
+    "backtest",
+    "portfolio",
+    "nifty",
+    "NSE"
+  ],
   "bin": {
     "angel": "./bin/index.js"
   },
