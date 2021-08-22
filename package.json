@@ -1,6 +1,6 @@
 {
   "name": "angel-broking-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Command line tools for multiple portfolio management and trading.",
   "main": "index.js",
   "repository": "https://github.com/jpm8888/angel-broking-command-line.git",
