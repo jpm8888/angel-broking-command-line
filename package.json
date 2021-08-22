@@ -13,7 +13,7 @@
   "scripts": {
     "lint": "eslint src",
     "system:install": "sudo npm install -g .",
-    "system:uninstall": "sudo npm uninstall -g angel-cli"
+    "system:uninstall": "sudo npm uninstall -g angel-broking-cli"
   },
   "dependencies": {
     "axios": "^0.21.1",
