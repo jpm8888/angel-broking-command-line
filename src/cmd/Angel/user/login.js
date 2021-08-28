@@ -5,6 +5,7 @@ const Logger = require('../../../common/Logger');
 const { printAllUsers } = require('./all');
 const Database = require('../../../common/database/Database');
 const { getUser } = require('./utils');
+const { setCurrentUser } = require('./select');
 
 const TAG = 'user/login: ';
 
@@ -45,6 +46,7 @@ async function tryLogin() {
 
   const { jwtToken, refreshToken, feedToken } = res.data;
   await saveTokens(user.id, jwtToken, refreshToken, feedToken, db);
+  await setCurrentUser(user.id, jwtToken);
   Logger.logInfo(TAG, 'Login success : ');
 }
 
