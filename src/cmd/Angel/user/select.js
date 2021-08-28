@@ -52,4 +52,5 @@ const command = {
 
 module.exports = {
   command,
+  setCurrentUser,
 };
