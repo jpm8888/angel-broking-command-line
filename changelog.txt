@@ -1,2 +1,2 @@
 - automatically selects user after login.
--
+- added option to login into all accounts.
