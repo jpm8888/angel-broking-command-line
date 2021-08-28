@@ -31,6 +31,14 @@ async function getUser(userId) {
   return errorObject;
 }
 
+async function getAllUser() {
+  const db = await Database.getDatabase();
+  const query = 'select * from users';
+  const rows = await db.all(query, []);
+  await Database.closeDatabase(db);
+  return rows;
+}
+
 async function printUserDetails(userId) {
   try {
     const response = await getUser(userId);
@@ -54,4 +62,5 @@ async function printUserDetails(userId) {
 module.exports = {
   printUserDetails,
   getUser,
+  getAllUser,
 };
