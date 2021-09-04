@@ -39,6 +39,7 @@ async function insert(db, item) {
 const dump_stocks = async () => {
   const progress = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
   const db = await Database.getDatabase();
+  Logger.logInfo(TAG, 'It takes about 3-5 minutes (max), Please wait.');
   try {
     const arr = await network.makeGetRequest(Config.ANGEL_URLS.tradedStocks);
     await truncateInstrumentsTable(db);
