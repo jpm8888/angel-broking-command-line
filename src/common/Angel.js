@@ -53,6 +53,11 @@ const InstrumentSection = {
   OPTIONS: 'options',
 };
 
+const ExpiryType = {
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly',
+};
+
 const Interval = {
   ONE_MINUTE: 'ONE_MINUTE',
   THREE_MINUTE: 'THREE_MINUTE',
@@ -74,4 +79,5 @@ module.exports = {
   Interval,
   InstrumentType,
   InstrumentSection,
+  ExpiryType,
 };
