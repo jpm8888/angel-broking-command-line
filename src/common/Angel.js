@@ -37,6 +37,22 @@ const Exchange = {
   MCX: 'MCX',
 };
 
+const InstrumentType = {
+  FutureCurrency: 'FUTCUR',
+  FutureIndex: 'FUTIDX',
+  FutureStock: 'FUTSTK',
+
+  OptionCurrency: 'OPTCUR',
+  OptionIndex: 'OPTIDX',
+  OptionStock: 'OPTSTK',
+};
+
+const InstrumentSection = {
+  STOCKS: 'stocks',
+  FUTURES: 'futures',
+  OPTIONS: 'options',
+};
+
 const Interval = {
   ONE_MINUTE: 'ONE_MINUTE',
   THREE_MINUTE: 'THREE_MINUTE',
@@ -56,4 +72,6 @@ module.exports = {
   Duration,
   Exchange,
   Interval,
+  InstrumentType,
+  InstrumentSection,
 };
