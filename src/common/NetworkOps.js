@@ -8,7 +8,7 @@ const { PrefKeys } = Prefs;
 const URLS = Config.ANGEL_URLS;
 
 const TAG = 'AxiosInterceptor: ';
-const unAuthenticatedRoutes = [URLS.login, URLS.test];
+const unAuthenticatedRoutes = [URLS.login, URLS.test, URLS.tradedStocks];
 const API_TIMEOUT = 10000;
 
 const getHeaders = async () => ({
