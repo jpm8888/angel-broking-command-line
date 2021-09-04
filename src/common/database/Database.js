@@ -75,9 +75,17 @@ const closeDatabase = async (db) => {
     .catch((err) => Logger.logError(TAG, err.message));
 };
 
+const getResultFromDatabase = async (query) => {
+  const db = await getDatabase();
+  const rows = await db.all(query, []);
+  await closeDatabase(db);
+  return rows;
+};
+
 module.exports = {
   getDatabase,
   create_index,
   create_unique_idx,
   closeDatabase,
+  getResultFromDatabase,
 };
