@@ -4,6 +4,7 @@ const migration_v1 = require('../../common/database/migration_v1');
 const Logger = require('../../common/Logger');
 const Prefs = require('../../common/Preferences');
 const Utils = require('../../common/Util');
+const migration_v2 = require('../../common/database/migration_v2');
 
 const { PrefKeys } = Prefs;
 
@@ -11,6 +12,7 @@ const TAG = 'Init: ';
 
 async function initDatabase() {
   await migration_v1.run_migration_v1();
+  await migration_v2.run_migration_v2();
   Logger.logInfo(TAG, 'trying to open authentication url.');
 }
 
