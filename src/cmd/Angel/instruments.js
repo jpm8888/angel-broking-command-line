@@ -8,6 +8,8 @@ const network = require('../../common/NetworkOps');
 const Config = require('../../common/Config');
 const migration_v1 = require('../../common/database/migration_v1');
 const migration_v2 = require('../../common/database/migration_v2');
+const Angel = require('../../common/Angel');
+const { ExpiryType } = require('../../common/Angel');
 
 const TAG = 'instruments: ';
 
@@ -81,8 +83,27 @@ const dump_stocks = async () => {
   }
 };
 
+const setExpType = async (db) => {
+  const query = 'select * from expiry order by exp_date;';
+  const rows = await db.all(query, []);
+  await Promise.all(rows.map(async (item, index) => {
+    let type = ExpiryType.MONTHLY;
+    if (index < rows.length - 1) {
+      const next = rows[index + 1];
+      const currentExpiryDate = dayjs(item.exp_date, 'YYYY-MM-DD');
+      const nextExpiryDate = dayjs(next.exp_date, 'YYYY-MM-DD');
+
+      if (currentExpiryDate.month() === nextExpiryDate.month()) {
+        type = ExpiryType.WEEKLY;
+      }
+    }
+
+    await db.run('update expiry set exp_type = ? where query_date = ? ', [type, item.query_date]);
+  }));
+};
+
 const populateExpiry = async () => {
-  const query = 'select distinct expiry from instruments';
+  const query = `select distinct expiry from instruments where exch_seg = '${Angel.Exchange.NFO}'`;
   const db = await Database.getDatabase();
   await truncateExpiryTable(db);
   const rows = await db.all(query, []);
@@ -97,6 +118,7 @@ const populateExpiry = async () => {
     const expiry = item.expiry.trim();
     if (expiry.length > 0) {
       const date = dayjs(expiry, 'DDMMMYYYY');
+
       const exp_date = date.format('YYYY-MM-DD');
       insertQuery += `('${exp_date}', '${expiry}'),`;
     }
@@ -104,6 +126,7 @@ const populateExpiry = async () => {
 
   const finalQuery = `${insertQuery.slice(0, -1)};`;
   await db.run(finalQuery, []);
+  await setExpType(db);
   Logger.logSuccess(TAG, 'expiry table updated.');
   await Database.closeDatabase(db);
 };
