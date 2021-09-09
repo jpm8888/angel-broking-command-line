@@ -3,6 +3,7 @@
 const yargs = require('yargs');
 const Setup = require('../src/cmd/Init/index');
 const Portfolio = require('../src/cmd/Angel/user/portfolio');
+const Positions = require('../src/cmd/Angel/user/position');
 const SayHello = require('../src/cmd/Angel/hello');
 const Instruments = require('../src/cmd/Angel/instruments');
 const Login = require('../src/cmd/Angel/user/login');
@@ -28,6 +29,7 @@ yargs
   .command(UserWhich.command)
   .command(UserFunds.command)
   .command(Portfolio)
+  .command(Positions)
   .command(OrderBuy.command)
   .command(OrderBook.command)
   .command(SayHello)
