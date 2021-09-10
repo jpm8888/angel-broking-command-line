@@ -16,6 +16,7 @@ const UserFunds = require('../src/cmd/Angel/user/funds');
 const UserAuth = require('../src/cmd/Angel/user/auth');
 const OrderBuy = require('../src/cmd/Angel/order/buy');
 const OrderBook = require('../src/cmd/Angel/order/book');
+const OrderPlace = require('../src/cmd/Angel/order/pp');
 
 yargs
   .command(Setup)
@@ -32,5 +33,6 @@ yargs
   .command(Positions)
   .command(OrderBuy.command)
   .command(OrderBook.command)
+  .command(OrderPlace.command)
   .command(SayHello)
   .parse();

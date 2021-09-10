@@ -7,15 +7,18 @@ const Config = require('../../../common/Config');
 
 async function printOrderBook() {
   const response = await network.makeGetRequest(Config.ANGEL_URLS.getOrderBook);
+
   const table = new Table({
-    head: ['Symbol', 'Variety', 'ProductType', 'Price/TriggerPrice', 'Qty', 'Status', 'Update Time'],
+    head: ['Symbol', 'Action', 'Variety', 'ProductType', 'Price/TriggerPrice', 'Qty', 'Status', 'Update Time'],
   });
 
   response.data.forEach((order) => {
     const {
-      tradingsymbol, variety, producttype, price, triggerprice, quantity, status, updatetime,
+      tradingsymbol, transactiontype, variety,
+      producttype, price, triggerprice,
+      quantity, status, updatetime,
     } = order;
-    table.push([tradingsymbol, variety, producttype, `${price}/${triggerprice}`, quantity, status, updatetime]);
+    table.push([tradingsymbol, transactiontype, variety, producttype, `${price}/${triggerprice}`, quantity, status, updatetime]);
   });
 
   // multiple table based OrderStatus...
