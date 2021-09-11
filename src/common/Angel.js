@@ -5,6 +5,11 @@ const Variety = {
   BRACKET_ORDER: 'ROBO',
 };
 
+const OptionType = {
+  CE: 'CE',
+  PE: 'PE',
+};
+
 const TransactionType = {
   BUY: 'BUY',
   SELL: 'SELL',
@@ -97,4 +102,5 @@ module.exports = {
   ExpiryType,
   OrderStatus,
   Confirmation,
+  OptionType,
 };

@@ -1,7 +1,8 @@
 const inquirer = require('inquirer');
 const {
-  InstrumentType, Exchange, InstrumentSection, ProductType, OrderType, Confirmation,
+  InstrumentType, Exchange, InstrumentSection, ProductType, OrderType, Confirmation, OptionType,
 } = require('../../../common/Angel');
+const { getResultFromDatabase } = require('../../../common/database/Database');
 
 const whichCode = [
   {
@@ -154,6 +155,15 @@ const confirmation = (message, defaultValue) => [
   },
 ];
 
+const whichOptionType = [
+  {
+    type: 'list',
+    name: 'option_type',
+    choices: [OptionType.CE, OptionType.PE],
+    message: 'Option type: ',
+  },
+];
+
 function whichSymbolRow(rows) {
   const choices = rows.map((item) => ({
     name: `${item.symbol} | ${item.name}`,
@@ -192,6 +202,32 @@ async function askFnoQty(lotSize) {
   return validQty;
 }
 
+async function whichExpiry(type = undefined) {
+  let query = 'select * from expiry order by exp_date asc limit 6';
+
+  if (type) {
+    query = `select * from expiry where exp_type = '${type}' order by exp_date asc limit 6`;
+  }
+
+  const rows = await getResultFromDatabase(query);
+  const choices = rows.map((item) => ({
+    name: `${item.query_date} (${item.exp_type})`,
+    value: item.exp_date,
+  }));
+
+  const expiryQ = [
+    {
+      type: 'list',
+      name: 'expiry',
+      message: 'Expiry ?',
+      choices,
+    },
+  ];
+  const { expiry } = await inquirer.prompt(expiryQ);
+
+  return expiry;
+}
+
 module.exports = {
   whichCode,
   whichFutures,
@@ -205,4 +241,6 @@ module.exports = {
   whichPrice,
   askFnoQty,
   confirmation,
+  whichOptionType,
+  whichExpiry,
 };

@@ -138,9 +138,8 @@ const populateExpiry = async () => {
   rows.forEach((item) => {
     const expiry = item.expiry.trim();
     if (expiry.length > 0) {
-      // const date = dayjs(expiry, 'DDMMMYYYY');
-      // const exp_date = date.format('YYYY-MM-DD');
-      insertQuery += `('${expiry}', '${expiry}'),`;
+      const formatted = dayjs(expiry, 'YYYY-MM-DD').format('DD MMM YYYY');
+      insertQuery += `('${expiry}', '${formatted}'),`;
     }
   });
 
