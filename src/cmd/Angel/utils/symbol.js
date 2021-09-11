@@ -60,6 +60,24 @@ async function findSymbol() {
     const { details } = await inquirer.prompt(whichSymbolRow(rows));
     return details;
   }
+
+  if (type === InstrumentSection.FUTURES) {
+    let query = `SELECT * from instruments where (symbol like '${code}%') and `;
+    query += `instrumenttype = '${instrumentType}' and `;
+    query += `exch_seg = '${exchange}' `;
+    query += 'order by date(expiry) asc, symbol asc ';
+    query += 'limit 5';
+
+    const rows = await getResultFromDatabase(query);
+    if (rows.length === 0) {
+      Logger.logError(TAG, 'No symbol found');
+      return undefined;
+    }
+
+    const { details } = await inquirer.prompt(whichSymbolRow(rows));
+    return details;
+  }
+
   return undefined;
 }
 

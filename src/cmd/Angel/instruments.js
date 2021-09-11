@@ -38,9 +38,15 @@ async function insert(db, item) {
     token, symbol, name, expiry, strike, lotsize, instrumenttype, exch_seg, tick_size,
   } = item;
 
+  let exp_date = expiry;
+  if (expiry.length > 0) {
+    const date = dayjs(expiry, 'DDMMMYYYY');
+    exp_date = date.format('YYYY-MM-DD');
+  }
+
   const params = [
     token, symbol,
-    name, expiry,
+    name, exp_date,
     strike, lotsize,
     instrumenttype, exch_seg,
     tick_size,
@@ -117,10 +123,9 @@ const populateExpiry = async () => {
   rows.forEach((item) => {
     const expiry = item.expiry.trim();
     if (expiry.length > 0) {
-      const date = dayjs(expiry, 'DDMMMYYYY');
-
-      const exp_date = date.format('YYYY-MM-DD');
-      insertQuery += `('${exp_date}', '${expiry}'),`;
+      // const date = dayjs(expiry, 'DDMMMYYYY');
+      // const exp_date = date.format('YYYY-MM-DD');
+      insertQuery += `('${expiry}', '${expiry}'),`;
     }
   });
 
