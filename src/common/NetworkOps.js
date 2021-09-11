@@ -24,7 +24,7 @@ const getHeaders = async () => ({
 
 axios.interceptors.request.use(async (config) => {
   const isTokenRequired = !unAuthenticatedRoutes.includes(config.url);
-  Logger.logInfo(TAG, `isTokenRequired: ${isTokenRequired} ${config.url}`);
+  // Logger.logInfo(TAG, `isTokenRequired: ${isTokenRequired} ${config.url}`);
 
   const headers = await getHeaders();
 
