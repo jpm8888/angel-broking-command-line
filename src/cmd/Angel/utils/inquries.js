@@ -1,12 +1,13 @@
+const inquirer = require('inquirer');
 const {
-  InstrumentType, Exchange, InstrumentSection, ProductType, OrderType,
+  InstrumentType, Exchange, InstrumentSection, ProductType, OrderType, Confirmation,
 } = require('../../../common/Angel');
 
 const whichCode = [
   {
     type: 'input',
     name: 'code',
-    message: 'Stock Symbol: ',
+    message: 'Symbol: ',
     default: '',
     validate(value) {
       return value.trim().toString().length !== 0;
@@ -97,6 +98,16 @@ const whichCNCOrder = [
   },
 ];
 
+const whichFnoOrder = [
+  {
+    type: 'list',
+    name: 'productType',
+    message: 'Product Type ? ',
+    choices: [ProductType.CARRYFORWARD, ProductType.INTRADAY],
+    default: ProductType.CARRYFORWARD,
+  },
+];
+
 const whichOrderType = [
   {
     type: 'list',
@@ -133,6 +144,16 @@ const whichPrice = [
   },
 ];
 
+const confirmation = (message, defaultValue) => [
+  {
+    type: 'list',
+    name: 'confirm',
+    choices: [Confirmation.YES, Confirmation.NO],
+    message,
+    default: defaultValue,
+  },
+];
+
 function whichSymbolRow(rows) {
   const choices = rows.map((item) => ({
     name: `${item.symbol} | ${item.name}`,
@@ -149,6 +170,28 @@ function whichSymbolRow(rows) {
   ];
 }
 
+async function askFnoQty(lotSize) {
+  const howMuchQty = [
+    {
+      type: 'number',
+      name: 'quantity',
+      message: 'Quantity ?',
+      validate(value) {
+        if (value <= 0) return 'Should be greater than zero';
+        return true;
+      },
+      filter: Number,
+    },
+  ];
+  const { quantity } = await inquirer.prompt(howMuchQty);
+
+  const extra = quantity % lotSize;
+  let validQty = quantity - extra;
+  if (validQty <= 0) validQty = lotSize;
+
+  return validQty;
+}
+
 module.exports = {
   whichCode,
   whichFutures,
@@ -156,7 +199,10 @@ module.exports = {
   whichExchange,
   whichSymbolRow,
   whichCNCOrder,
+  whichFnoOrder,
   whichOrderType,
   howManyQuantity,
   whichPrice,
+  askFnoQty,
+  confirmation,
 };

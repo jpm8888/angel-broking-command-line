@@ -2,10 +2,12 @@ const inquirer = require('inquirer');
 const Logger = require('../../../common/Logger');
 const { findSymbol } = require('../utils/symbol');
 const {
-  whichOrderType, whichCNCOrder, howManyQuantity, whichPrice,
+  whichOrderType, whichCNCOrder, howManyQuantity,
+  whichPrice, whichFnoOrder,
+  askFnoQty, confirmation,
 } = require('../utils/inquries');
 const {
-  OrderType, Variety, TransactionType,
+  OrderType, Variety, TransactionType, Exchange, Confirmation,
 } = require('../../../common/Angel');
 
 const { commandString } = require('./place');
@@ -17,7 +19,9 @@ async function place_buy_order() {
   const symbol = await findSymbol();
 
   if (symbol) {
-    const { productType } = await inquirer.prompt(whichCNCOrder);
+    const isFno = symbol.exch_seg === Exchange.NFO;
+
+    const { productType } = await inquirer.prompt(isFno ? whichFnoOrder : whichCNCOrder);
     const { orderType } = await inquirer.prompt(whichOrderType);
 
     let price = 0;
@@ -26,7 +30,14 @@ async function place_buy_order() {
       price = pricePrompt.price;
     }
 
-    const { quantity } = await inquirer.prompt(howManyQuantity);
+    let quantity = 0;
+
+    if (isFno) {
+      quantity = await askFnoQty(symbol.lotsize);
+    } else {
+      const output = await inquirer.prompt(howManyQuantity);
+      quantity = output.quantity;
+    }
 
     let c = `angel ${commandString} `;
     c += `--v ${Variety.NORMAL} `;
@@ -39,8 +50,14 @@ async function place_buy_order() {
     c += `--p ${price} `;
     c += `--q ${quantity} `;
 
-    const output = await runShellCommand(c);
-    Logger.logSuccess(output);
+    const { confirm } = await inquirer.prompt(confirmation('Are you sure', Confirmation.YES));
+
+    if (confirm === Confirmation.YES) {
+      const output = await runShellCommand(c);
+      Logger.logSuccess(output);
+    } else {
+      Logger.logSuccess(TAG, 'order cancelled');
+    }
   } else {
     Logger.logError(TAG, 'no symbol found');
   }

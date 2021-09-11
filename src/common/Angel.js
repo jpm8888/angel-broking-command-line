@@ -79,6 +79,11 @@ const OrderStatus = {
   TriggerPending: 'trigger pending',
 };
 
+const Confirmation = {
+  YES: 'yes',
+  NO: 'no',
+};
+
 module.exports = {
   Variety,
   TransactionType,
@@ -91,4 +96,5 @@ module.exports = {
   InstrumentSection,
   ExpiryType,
   OrderStatus,
+  Confirmation,
 };
