@@ -11,7 +11,7 @@ const network = require('../../../common/NetworkOps');
 const Config = require('../../../common/Config');
 
 const TAG = 'order/place: ';
-
+const commandString = 'order:place';
 // angel order:place --s HDFC-EQ --st 1330 --v NORMAL
 // --tt BUY --e NSE --ot LIMIT --pt DELIVERY --price 118 --q 100
 
@@ -61,7 +61,7 @@ async function place_order(argv) {
 }
 
 const command = {
-  command: 'order:place',
+  command: commandString,
   describe: 'place an generic order',
   alias: 'op',
   builder: (yargs) => {
@@ -165,4 +165,6 @@ const command = {
 
 module.exports = {
   command,
+  commandString,
+  place_order,
 };
