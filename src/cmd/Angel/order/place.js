@@ -14,9 +14,12 @@ const TAG = 'order/place: ';
 
 // angel order:place --s HDFC-EQ --st 1330 --v NORMAL
 // --tt BUY --e NSE --ot LIMIT --pt DELIVERY --price 118 --q 100
+
+// angel order:place --s HDFC-EQ --st 1330 --v STOPLOSS --tt BUY --e NSE
+// --ot STOPLOSS_MARKET --pt DELIVERY --price 118 --q 100 --tp 100
 async function place_order(argv) {
   const { order_type, trigger_price } = argv;
-  const price = order_type === OrderType.MARKET ? 0 : argv.price;
+  const price = (order_type === OrderType.MARKET || OrderType.STOPLOSS_MARKET) ? 0 : argv.price;
   const isTriggerPriceRequired = order_type === OrderType.STOPLOSS_LIMIT
       || order_type === OrderType.STOPLOSS_MARKET;
 
@@ -63,15 +66,15 @@ const command = {
   alias: 'op',
   builder: (yargs) => {
     const requiredCommands = [
-      // 'symbol',
-      // 'symbol_token',
-      // 'variety',
-      // 'transaction_type',
-      // 'exchange',
-      // 'order_type',
-      // 'product_type',
-      // 'price',
-      // 'quantity',
+      'symbol',
+      'symbol_token',
+      'variety',
+      'transaction_type',
+      'exchange',
+      'order_type',
+      'product_type',
+      'price',
+      'quantity',
     ];
     yargs
       .positional('symbol', {
@@ -126,7 +129,6 @@ const command = {
         type: 'string',
         alias: 'ot',
       })
-
       .positional('product_type', {
         describe: 'Product type',
         choices: [
