@@ -47,6 +47,7 @@ const create_table_instruments = async (db) => {
   query += 'name text, ';
   query += 'expiry text, ';
   query += 'strike real, ';
+  query += 'option_type text, ';
   query += 'lotsize integer, ';
   query += 'instrumenttype text, ';
   query += 'exch_seg text, ';
@@ -57,6 +58,7 @@ const create_table_instruments = async (db) => {
     await Database.create_index(db, table_name, 'token');
     await Database.create_index(db, table_name, 'symbol');
     await Database.create_index(db, table_name, 'exch_seg');
+    await Database.create_index(db, table_name, 'option_type');
     Logger.logInfo(TAG, `created ${table_name} success`);
   } catch (error) {
     Logger.logInfo(TAG, `creation error on ${table_name}${JSON.stringify(error)}`);

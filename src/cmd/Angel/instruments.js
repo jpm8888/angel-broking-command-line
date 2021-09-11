@@ -9,7 +9,7 @@ const Config = require('../../common/Config');
 const migration_v1 = require('../../common/database/migration_v1');
 const migration_v2 = require('../../common/database/migration_v2');
 const Angel = require('../../common/Angel');
-const { ExpiryType } = require('../../common/Angel');
+const { ExpiryType, InstrumentType } = require('../../common/Angel');
 
 const TAG = 'instruments: ';
 
@@ -29,11 +29,21 @@ async function truncateExpiryTable(db) {
   Logger.logSuccess(TAG, 'truncated expiry table.');
 }
 
+function extractOptionType(symbol, instrumentType) {
+  if (instrumentType === InstrumentType.OptionStock
+      || instrumentType === InstrumentType.OptionIndex
+      || instrumentType === InstrumentType.OptionCurrency
+  ) {
+    return symbol.toString().trim().slice(-2);
+  }
+  return null;
+}
+
 async function insert(db, item) {
   const table_name = 'instruments';
   let query = `insert into ${table_name} `;
-  query += '(token, symbol, name, expiry, strike, lotsize, instrumenttype, exch_seg, tick_size) ';
-  query += 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  query += '(token, symbol, name, expiry, strike, option_type, lotsize, instrumenttype, exch_seg, tick_size) ';
+  query += 'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const {
     token, symbol, name, expiry, strike, lotsize, instrumenttype, exch_seg, tick_size,
   } = item;
@@ -44,10 +54,15 @@ async function insert(db, item) {
     exp_date = date.format('YYYY-MM-DD');
   }
 
+  let strike_price = parseFloat(strike);
+  if (strike_price > 0) strike_price /= 100;
+
+  const optionType = extractOptionType(symbol, instrumenttype);
+
   const params = [
     token, symbol,
     name, exp_date,
-    strike, lotsize,
+    strike_price, optionType, lotsize,
     instrumenttype, exch_seg,
     tick_size,
   ];
