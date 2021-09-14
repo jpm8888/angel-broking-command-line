@@ -3,6 +3,7 @@
 const yargs = require('yargs');
 const Setup = require('../src/cmd/Init/index');
 const Portfolio = require('../src/cmd/Angel/user/portfolio');
+const Positions = require('../src/cmd/Angel/user/position');
 const SayHello = require('../src/cmd/Angel/hello');
 const Instruments = require('../src/cmd/Angel/instruments');
 const Login = require('../src/cmd/Angel/user/login');
@@ -14,6 +15,8 @@ const UserWhich = require('../src/cmd/Angel/user/which');
 const UserFunds = require('../src/cmd/Angel/user/funds');
 const UserAuth = require('../src/cmd/Angel/user/auth');
 const OrderBuy = require('../src/cmd/Angel/order/buy');
+const OrderBook = require('../src/cmd/Angel/order/book');
+const OrderPlace = require('../src/cmd/Angel/order/place');
 
 yargs
   .command(Setup)
@@ -27,6 +30,9 @@ yargs
   .command(UserWhich.command)
   .command(UserFunds.command)
   .command(Portfolio)
+  .command(Positions)
   .command(OrderBuy.command)
+  .command(OrderBook.command)
+  .command(OrderPlace.command)
   .command(SayHello)
   .parse();

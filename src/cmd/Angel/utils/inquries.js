@@ -1,12 +1,14 @@
+const inquirer = require('inquirer');
 const {
-  InstrumentType, Exchange, InstrumentSection, ProductType, OrderType,
+  InstrumentType, Exchange, InstrumentSection, ProductType, OrderType, Confirmation, OptionType,
 } = require('../../../common/Angel');
+const { getResultFromDatabase } = require('../../../common/database/Database');
 
 const whichCode = [
   {
     type: 'input',
     name: 'code',
-    message: 'Stock Symbol: ',
+    message: 'Symbol: ',
     default: '',
     validate(value) {
       return value.trim().toString().length !== 0;
@@ -97,6 +99,16 @@ const whichCNCOrder = [
   },
 ];
 
+const whichFnoOrder = [
+  {
+    type: 'list',
+    name: 'productType',
+    message: 'Product Type ? ',
+    choices: [ProductType.CARRYFORWARD, ProductType.INTRADAY],
+    default: ProductType.CARRYFORWARD,
+  },
+];
+
 const whichOrderType = [
   {
     type: 'list',
@@ -133,6 +145,25 @@ const whichPrice = [
   },
 ];
 
+const confirmation = (message, defaultValue) => [
+  {
+    type: 'list',
+    name: 'confirm',
+    choices: [Confirmation.YES, Confirmation.NO],
+    message,
+    default: defaultValue,
+  },
+];
+
+const whichOptionType = [
+  {
+    type: 'list',
+    name: 'option_type',
+    choices: [OptionType.CE, OptionType.PE],
+    message: 'Option type: ',
+  },
+];
+
 function whichSymbolRow(rows) {
   const choices = rows.map((item) => ({
     name: `${item.symbol} | ${item.name}`,
@@ -149,6 +180,54 @@ function whichSymbolRow(rows) {
   ];
 }
 
+async function askFnoQty(lotSize) {
+  const howMuchQty = [
+    {
+      type: 'number',
+      name: 'quantity',
+      message: 'Quantity ?',
+      validate(value) {
+        if (value <= 0) return 'Should be greater than zero';
+        return true;
+      },
+      filter: Number,
+    },
+  ];
+  const { quantity } = await inquirer.prompt(howMuchQty);
+
+  const extra = quantity % lotSize;
+  let validQty = quantity - extra;
+  if (validQty <= 0) validQty = lotSize;
+
+  return validQty;
+}
+
+async function whichExpiry(type = undefined) {
+  let query = 'select * from expiry order by exp_date asc limit 6';
+
+  if (type) {
+    query = `select * from expiry where exp_type = '${type}' order by exp_date asc limit 6`;
+  }
+
+  const rows = await getResultFromDatabase(query);
+  const choices = rows.map((item) => ({
+    name: `${item.query_date} (${item.exp_type})`,
+    value: item.exp_date,
+  }));
+
+  const expiryQ = [
+    {
+      type: 'list',
+      name: 'expiry',
+      message: 'Expiry ?',
+      choices,
+    },
+  ];
+  const { expiry } = await inquirer.prompt(expiryQ);
+
+  return expiry;
+}
+
 module.exports = {
   whichCode,
   whichFutures,
@@ -156,7 +235,12 @@ module.exports = {
   whichExchange,
   whichSymbolRow,
   whichCNCOrder,
+  whichFnoOrder,
   whichOrderType,
   howManyQuantity,
   whichPrice,
+  askFnoQty,
+  confirmation,
+  whichOptionType,
+  whichExpiry,
 };

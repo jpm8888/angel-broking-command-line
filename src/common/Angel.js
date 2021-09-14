@@ -5,6 +5,11 @@ const Variety = {
   BRACKET_ORDER: 'ROBO',
 };
 
+const OptionType = {
+  CE: 'CE',
+  PE: 'PE',
+};
+
 const TransactionType = {
   BUY: 'BUY',
   SELL: 'SELL',
@@ -69,6 +74,21 @@ const Interval = {
   ONE_DAY: 'ONE_DAY',
 };
 
+const OrderStatus = {
+  ValidationPending: 'validation pending',
+  OpenPending: 'open pending',
+  Open: 'open',
+  Rejected: 'rejected',
+  Complete: 'complete',
+
+  TriggerPending: 'trigger pending',
+};
+
+const Confirmation = {
+  YES: 'yes',
+  NO: 'no',
+};
+
 module.exports = {
   Variety,
   TransactionType,
@@ -80,4 +100,7 @@ module.exports = {
   InstrumentType,
   InstrumentSection,
   ExpiryType,
+  OrderStatus,
+  Confirmation,
+  OptionType,
 };
