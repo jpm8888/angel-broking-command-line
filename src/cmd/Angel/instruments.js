@@ -1,6 +1,4 @@
 const cliProgress = require('cli-progress');
-const { from } = require('rxjs');
-const { mergeMap } = require('rxjs');
 const dayjs = require('dayjs');
 const Logger = require('../../common/Logger');
 const Database = require('../../common/database/Database');
@@ -10,6 +8,7 @@ const migration_v1 = require('../../common/database/migration_v1');
 const migration_v2 = require('../../common/database/migration_v2');
 const Angel = require('../../common/Angel');
 const { ExpiryType, InstrumentType } = require('../../common/Angel');
+const DumpService = require('./DumpService');
 
 const TAG = 'instruments: ';
 
@@ -82,23 +81,25 @@ const dump_stocks = async () => {
   const db = await Database.getDatabase();
   Logger.logInfo(TAG, 'It takes about 3-5 minutes (max), Please wait.');
   try {
-    const arr = await network.makeGetRequest(Config.ANGEL_URLS.tradedStocks);
+    const arr = await network.makeGetRequest(Config.ANGEL_URLS.tradedStocks) || [];
     await truncateInstrumentsTable(db);
     progress.start(arr.length, 0);
 
-    const source = from(arr);
-    const ob$ = source.pipe(
-      mergeMap((item) => from(insert(db, item))),
-    );
-
-    ob$.subscribe({
+    const queue = new DumpService();
+    queue.results.subscribe({
       next: () => progress.increment(),
       complete: () => {
         Database.closeDatabase(db).then(() => {
           progress.stop();
+          Logger.logSuccess(TAG, 'success');
         });
       },
     });
+
+    arr.forEach((item) => {
+      queue.addToQueue(() => insert(db, item));
+    });
+    queue.finish();
   } catch (e) {
     console.log(e);
   }
