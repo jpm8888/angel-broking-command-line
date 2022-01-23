@@ -103,7 +103,8 @@ async function findSymbol() {
   if (type === InstrumentSection.OPTIONS) {
     const { option_type } = await inquirer.prompt(whichOptionType);
 
-    const expiryType = (instrumentType === InstrumentType.OptionIndex) ? undefined : ExpiryType.MONTHLY;
+    const expiryType = (instrumentType === InstrumentType.OptionIndex)
+      ? undefined : ExpiryType.MONTHLY;
 
     const expiry = await whichExpiry(expiryType);
 

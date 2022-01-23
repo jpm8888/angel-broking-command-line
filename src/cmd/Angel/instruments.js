@@ -92,6 +92,10 @@ const dump_stocks = async () => {
         Database.closeDatabase(db).then(() => {
           progress.stop();
           Logger.logSuccess(TAG, 'success');
+          // eslint-disable-next-line no-use-before-define
+          populateExpiry().then(() => {
+
+          });
         });
       },
     });
@@ -156,7 +160,7 @@ const commandUpdateInstruments = {
   describe: 'Retrieve the CSV dump of all traded instruments',
   handler: () => {
     dump_stocks().then(async () => {
-      await populateExpiry();
+
     });
   },
 };
