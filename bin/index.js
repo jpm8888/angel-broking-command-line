@@ -17,6 +17,7 @@ const UserAuth = require('../src/cmd/Angel/user/auth');
 const OrderBuy = require('../src/cmd/Angel/order/buy');
 const OrderBook = require('../src/cmd/Angel/order/book');
 const OrderPlace = require('../src/cmd/Angel/order/place');
+const Reset = require('../src/cmd/Angel/common/reset');
 
 yargs
   .command(Setup)
@@ -34,5 +35,6 @@ yargs
   .command(OrderBuy.command)
   .command(OrderBook.command)
   .command(OrderPlace.command)
+  .command(Reset.command)
   .command(SayHello)
   .parse();
